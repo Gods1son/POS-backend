@@ -1,0 +1,38 @@
+{
+  "name": "superlogin-old",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "body-parser": "^1.15.0",
+    "bower": "^1.7.7",
+    "cors": "^2.8.5",
+    "debug": "^2.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "passport-facebook": "^2.1.0",
+    "passport-github": "^1.1.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-linkedin-oauth2": "^1.4.0",
+    "passport-windowslive": "^1.0.2",
+    "pouchdb": "~5.3.1",
+    "serve-favicon": "^2.3.0",
+    "superlogin": "^0.6.0",
+    "yamljs": "^0.2.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.5.6",
+    "gulp-jshint": "^1.11.2",
+    "gulp-util": "^2.2.14",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.0.1"
+  }
+}

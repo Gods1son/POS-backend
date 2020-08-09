@@ -42,6 +42,9 @@ var config = {
     // If set to true, the user will be logged in automatically after resetting the password
     loginOnPasswordReset: true
   },
+  local: {
+    emailUsername: true
+  },
   dbServer: {
     protocol: 'https://',
     //host: '',
@@ -180,6 +183,19 @@ app.use('/logoutSession',
       function(req, res) {
         try{
         superlogin.validateUsername(req.body.username).then(function(data){
+          res.send(data);
+        }).catch(function(err){
+          res.send(err);
+        });
+      }catch(err){
+        console.log(err);
+      }
+  });
+
+  app.use('/checkEmailUsername',
+      function(req, res) {
+        try{
+        superlogin.validateEmailUsername(req.body.email).then(function(data){
           res.send(data);
         }).catch(function(err){
           res.send(err);

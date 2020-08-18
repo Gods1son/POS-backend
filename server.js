@@ -480,3 +480,4 @@ app.use('/logoutSession',
   });
 
 http.createServer(app).listen(app.get('port'));
+http.createServer(app).listen(app.get('port'));

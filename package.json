@@ -25,6 +25,7 @@
     "passport-windowslive": "^1.0.2",
     "pouchdb": "~5.3.1",
     "serve-favicon": "^2.3.0",
+    "stripe": "^8.84.0",
     "superlogin": "^0.6.0",
     "yamljs": "^0.2.7"
   },

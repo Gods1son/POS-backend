@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cors = require('cors');
 var dotenv = require('dotenv').config();
+var PouchDB = require('pouchdb');
 var SuperLogin = require('superlogin');
 var { security } = require('superlogin/config/default.config');
 const Stripe = require('stripe');
@@ -178,13 +179,97 @@ app.use('/logoutSession',
 
   app.use('/testpage',
   function(req, res) {
-    res.send("Welcome here! " + process.env.TESTING);
+    const{v4: uuidv4} = require("uuid");
+    var id = uuidv4();
+    res.send("Welcome here! " + id);
   });
 
   app.use('/testQuery',
   function(req, res) {
     res.send("Value: " + req.query.value);
   });
+
+  app.use('/testCloudPage',
+  function(req, res) {
+    var db = new PouchDB('https://' + process.env.USER + ':' + process.env.PASSWORD + '@' + process.env.HOST + '/pages');
+    db.info().then(function (info) {
+      res.send(info);
+    }).catch((err) => {
+      res.send(err);
+    })
+    //res.send("Value: " + req.query.value);
+  });
+
+  app.use('/addNewPage',
+  function(req, res) {
+    
+    var doc = req.body;
+    var db = new PouchDB('https://' + process.env.USER + ':' + process.env.PASSWORD + '@' + process.env.HOST + '/pages');
+    if(doc._id == undefined || doc._id == null){
+      const{v4: uuidv4} = require("uuid");
+      var idUnique = uuidv4();
+      doc._id = idUnique;
+      db.put(doc).then(function(rec){
+        db.get(doc._id).then(function(data){
+          res.send(data);
+        })
+      }).catch((err) => {
+        res.send(err);
+      })
+    }else{
+        db.get(doc._id).then(function(data){
+          var data2 = data;
+          data = doc;
+          data._id = data2._id;
+          data._rev = data2._rev;
+          db.put(data).then((fin) => {
+            res.send(fin);
+          })
+        }).catch((err) => {
+        res.send(err);
+      })
+    }
+    
+    /*
+    var db = new PouchDB('https://' + process.env.USER + ':' + process.env.PASSWORD + '@' + process.env.HOST + '/pages');
+    var doc = {};
+    const{v4: uuidv4} = require("uuid");
+    var idUnique = uuidv4();
+    doc._id = idUnique;
+    doc.store_name = "store tester";
+    doc.product_name = "product hair 2";
+    doc.description = "this is a beautiful hair to purchase";
+    doc.other_notes = "It is yellow and straight";
+    db.put(doc).then(function(rec){
+      db.get(doc._id).then(function(data){
+        res.send(data);
+      })
+    }).catch((err) => {
+      res.send(err);
+    })*/
+    //res.send("Value: " + req.query.value);
+  });
+
+  app.use('/returnPage',
+  function(req, res) {
+    console.log(req.body);
+    var link = req.body.id;
+    if(link == undefined || link == null){
+      console.log("no link");
+      res.send(null);
+      return;
+    }
+    var db = new PouchDB('https://' + process.env.USER + ':' + process.env.PASSWORD + '@' + process.env.HOST + '/pages');
+      db.get(link).then(function(data){
+        data.successCode = true;
+        res.send(data);
+      }).catch((err) => {
+        console.log("error:", err);
+        err.successCode = false;
+        res.send(err);
+    })
+  })
+
 
   app.use('/checkUsername',
       function(req, res) {

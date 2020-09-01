@@ -72,7 +72,7 @@ var config = {
   },
   userDBs: {
     defaultDBs: {
-      private: ['dbings','dbproducts','dbsales','dbclients','dbexpenses','dbprodings','dbprodothers','dbsettings']
+      private: ['dbings','dbproducts','dbsales','dbclients','dbexpenses','dbrestock','dbprodings','dbprodothers','dbsettings']
     }, 
     model: {
       // If your database is not listed below, these default settings will be applied
